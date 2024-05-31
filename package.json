@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "driz-gen": "yarn drizzle-kit generate",
+    "driz-mig": "yarn drizzle-kit migrate"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.1.3",

@@ -1,13 +1,33 @@
-import { sql } from "drizzle-orm";
 import {
   pgTable,
-  text,
-  uuid,
   unique,
-  timestamp,
+  varchar,
   integer,
+  uniqueIndex,
+  uuid,
+  text,
+  foreignKey,
+  timestamp,
   boolean,
 } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
+
+export const tilez_words = pgTable(
+  "tilez_words",
+  {
+    word: varchar("word", { length: 6 }).notNull(),
+    length: integer("length").default(6).notNull(),
+  },
+  (table) => {
+    return {
+      tilez_words_word_key: unique("tilez_words_word_key").on(table.word),
+      tilez_words_word_idx: uniqueIndex("tilez_words_word_idx").using(
+        "btree",
+        table.word
+      ),
+    };
+  }
+);
 
 export const tilez_users = pgTable(
   "tilez_users",
@@ -25,13 +45,20 @@ export const tilez_users = pgTable(
   },
   (table) => {
     return {
+      clerk_id_idx: uniqueIndex("tilez_users_clerk_id_idx").using(
+        "btree",
+        table.clerk_id
+      ),
+      username_idx: uniqueIndex("tilez_users_username_idx").using(
+        "btree",
+        table.username
+      ),
       tilez_users_clerk_id_key: unique("tilez_users_clerk_id_key").on(
         table.clerk_id
       ),
       tilez_users_username_key: unique("tilez_users_username_key").on(
         table.username
       ),
-      tilez_users_email_key: unique("tilez_users_email_key").on(table.email),
     };
   }
 );
@@ -50,14 +77,18 @@ export const tilez_games = pgTable(
         onDelete: "cascade",
         onUpdate: "cascade",
       }),
-    game_start: timestamp("game_start").defaultNow(),
-    game_end: timestamp("game_end"),
+    game_start: timestamp("game_start", { mode: "string" }).defaultNow(),
+    game_end: timestamp("game_end", { mode: "string" }),
     num_moves: integer("num_moves").default(0),
     completed: boolean("completed").default(false),
   },
   (table) => {
     return {
-      tilez_games_clerk_game_id: unique("tilez_games_clerk_game_id").on(
+      clerk_game_id_idx: uniqueIndex("tilez_games_clerk_game_id_idx").using(
+        "btree",
+        table.game_id
+      ),
+      tilez_games_clerk_game_id_key: unique("tilez_games_clerk_game_id_key").on(
         table.game_id
       ),
     };
