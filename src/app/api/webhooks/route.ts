@@ -1,7 +1,9 @@
+import { tilez_users } from "./../../../db/migrations/schema";
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { UserJSON, WebhookEvent } from "@clerk/nextjs/server";
-import { sql } from "@vercel/postgres";
+import { db } from "@/db/db";
+import { eq } from "drizzle-orm";
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
@@ -56,18 +58,37 @@ export async function POST(req: Request) {
     case "user.created": {
       const { username, first_name, last_name, image_url, email_addresses } =
         evt.data as UserJSON;
-      await sql`INSERT INTO nextusers (clerk_id, username, first_name, last_name, email, imglink) VALUES
-      (${id}, ${username}, ${first_name}, ${last_name}, ${email_addresses[0].email_address}, ${image_url}) ON CONFLICT DO NOTHING`;
+      await db
+        .insert(tilez_users)
+        .values({
+          clerk_id: id || "",
+          username: username || "",
+          first_name: first_name || "",
+          last_name: last_name || "",
+          email: email_addresses[0].email_address,
+          imglink: image_url,
+        })
+        .onConflictDoNothing();
       break;
     }
     case "user.deleted": {
-      await sql`DELETE FROM nextusers WHERE clerk_id = ${id}`;
+      await db.delete(tilez_users).where(eq(tilez_users.clerk_id, id || ""));
       break;
     }
     case "user.updated": {
       const { username, first_name, last_name, image_url, email_addresses } =
         evt.data as UserJSON;
-      await sql`UPDATE nextusers SET username = ${username}, first_name = ${first_name}, last_name = ${last_name}, email = ${email_addresses[0].email_address}, imglink = ${image_url} WHERE clerk_id = ${id}`;
+
+      await db
+        .update(tilez_users)
+        .set({
+          username: username || "",
+          first_name: first_name || "",
+          last_name: last_name || "",
+          email: email_addresses[0].email_address,
+          imglink: image_url,
+        })
+        .where(eq(tilez_users.clerk_id, id || ""));
       break;
     }
     default: {
@@ -75,7 +96,7 @@ export async function POST(req: Request) {
     }
   }
 
-    console.log(`Webhook with and ID of ${id}`)// and type of ${eventType}`)
+  console.log(`Webhook with and ID of ${id}`); // and type of ${eventType}`)
   //   console.log('Webhook body:', body)
 
   return new Response("", { status: 200 });
