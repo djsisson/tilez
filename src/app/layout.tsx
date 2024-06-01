@@ -9,6 +9,8 @@ import {
   SignedIn,
   SignedOut,
 } from "@clerk/nextjs";
+import Header from "@/components/header";
+import Footer from "@/components/Footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -39,16 +41,12 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <SignedOut>
-              <SignInButton
-                fallbackRedirectUrl="/"
-                signUpFallbackRedirectUrl="/"
-              />
-            </SignedOut>
-            <SignedIn>
-              <CustomUserButton />
-            </SignedIn>
-            {children}
+            <div className="w-svw h-svh flex flex-col justify-between items-center">
+              <Header></Header>
+              <div>{children}</div>
+
+              <Footer></Footer>
+            </div>
           </ThemeProvider>
         </body>
       </html>

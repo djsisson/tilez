@@ -1,9 +1,10 @@
+import GameBoard from "@/components/GameBoard";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <div>
-      <Link href={"/testing"}></Link>
+      <GameBoard></GameBoard>
     </div>
   );
 }
