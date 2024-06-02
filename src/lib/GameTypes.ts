@@ -24,6 +24,7 @@ export enum GameRowPosition {
     LOAD_GAME = "LOAD_GAME",
     RESET = "RESET",
     MOVEROW = "MOVEROW",
+    FOUND = "FOUND",
   }
   
   export type GameAction = {

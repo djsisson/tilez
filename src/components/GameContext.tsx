@@ -1,11 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useReducer, useEffect } from "react";
-import * as GameTypes from "@/lib/GameTypes";
+import { GameAction, GameState, GameActionType } from "@/lib/GameTypes";
 import { NewGame } from "@/lib/newgame";
-import { words_six } from "@/data/6letter";
-
-const _gameState: GameTypes.GameState = { ...NewGame() };
 
 export const useGameState = () => {
   return useContext(GameStateContext);
@@ -15,19 +12,34 @@ export const useGameStateDispatch = () => {
   return useContext(GameStateDispatchContext);
 };
 
-const gameStateReducer = (
-  gameState: GameTypes.GameState,
-  action: GameTypes.GameAction
-) => {
+const _gameState: GameState = {
+  gameStart: new Date(),
+  moves: 0,
+  rows: [],
+};
+
+const gameStateReducer = (gameState: GameState, action: GameAction) => {
   switch (action.type) {
-    case GameTypes.GameActionType.LOAD_GAME: {
+    case GameActionType.LOAD_GAME: {
       return { ...action.payload };
     }
-    case GameTypes.GameActionType.RESET: {
-      return { ...NewGame() };
+    case GameActionType.RESET: {
+      return { ...action.payload };
     }
-    case GameTypes.GameActionType.MOVEROW: {
-      const newstate = {
+    case GameActionType.FOUND: {
+      return {
+        ...gameState,
+        rows: gameState.rows.map((x) => ({
+          ...x,
+          tiles: x.tiles.map((y, i) => ({
+            ...y,
+            found: i === x.position + 1 ? true : y.found,
+          })),
+        })),
+      };
+    }
+    case GameActionType.MOVEROW: {
+      return {
         ...gameState,
         moves: gameState.moves + 1,
         rows: [
@@ -39,23 +51,6 @@ const gameStateReducer = (
           ...gameState.rows.slice(action.payload.rowNumber + 1),
         ],
       };
-      const currentWord = newstate.rows.map(
-        (x) => x.tiles[x.position + 1].letter
-      );
-      if (words_six.includes(currentWord.join(""))) {
-        console.log("Found", currentWord);
-        return {
-          ...newstate,
-          rows: newstate.rows.map((x) => ({
-            ...x,
-            tiles: x.tiles.map((y, i) => ({
-              ...y,
-              found: i === x.position + 1 ? true : y.found,
-            })),
-          })),
-        };
-      }
-      return newstate;
     }
     default: {
       return { ...gameState };
@@ -64,9 +59,9 @@ const gameStateReducer = (
 };
 
 const GameStateContext = createContext(_gameState);
-const GameStateDispatchContext = createContext<
-  React.Dispatch<GameTypes.GameAction>
->(null!);
+const GameStateDispatchContext = createContext<React.Dispatch<GameAction>>(
+  null!
+);
 export const GameStateProvider = ({
   children,
 }: {
@@ -76,10 +71,18 @@ export const GameStateProvider = ({
 
   useEffect(() => {
     const localState = localStorage.getItem("Tilez");
-    dispatch({
-      type: GameTypes.GameActionType.LOAD_GAME,
-      payload: localState ? JSON.parse(localState) : _gameState,
-    });
+
+    if (!localState) {
+      const getGameState = async () => {
+        dispatch({ type: GameActionType.LOAD_GAME, payload: await NewGame() });
+      };
+      getGameState();
+    } else {
+      dispatch({
+        type: GameActionType.LOAD_GAME,
+        payload: JSON.parse(localState),
+      });
+    }
   }, []);
 
   useEffect(() => {
