@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
 import * as GameTypes from "@/lib/GameTypes";
 import { NewGame } from "@/lib/newgame";
+import { words_six } from "@/data/6letter";
 
 const _gameState: GameTypes.GameState = { ...NewGame() };
 
@@ -26,8 +27,9 @@ const gameStateReducer = (
       return { ...NewGame() };
     }
     case GameTypes.GameActionType.MOVEROW: {
-      return {
+      const newstate = {
         ...gameState,
+        moves: gameState.moves + 1,
         rows: [
           ...gameState.rows.slice(0, action.payload.rowNumber),
           {
@@ -35,7 +37,25 @@ const gameStateReducer = (
             position: action.payload.position,
           },
           ...gameState.rows.slice(action.payload.rowNumber + 1),
-        ],}
+        ],
+      };
+      const currentWord = newstate.rows.map(
+        (x) => x.tiles[x.position + 1].letter
+      );
+      if (words_six.includes(currentWord.join(""))) {
+        console.log("Found", currentWord);
+        return {
+          ...newstate,
+          rows: newstate.rows.map((x) => ({
+            ...x,
+            tiles: x.tiles.map((y, i) => ({
+              ...y,
+              found: i === x.position + 1 ? true : y.found,
+            })),
+          })),
+        };
+      }
+      return newstate;
     }
     default: {
       return { ...gameState };
