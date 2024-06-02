@@ -38,6 +38,9 @@ export default function GameRow({ rowNumber }: { rowNumber: number }) {
     });
   };
 
+  if (letters.length == 0)
+    return <div className="col-span-5 gap-4 px-6 py-4"></div>;
+
   return (
     <div
       className={`transition ease-in-out delay-150 duration-300  col-span-5 grid grid-cols-5 gap-4 ${
@@ -55,7 +58,14 @@ export default function GameRow({ rowNumber }: { rowNumber: number }) {
       )}
 
       {letters.map((z, j) => {
-        return <GameTile key={j} position={j} letter={z.letter}></GameTile>;
+        return (
+          <GameTile
+            key={j}
+            position={j}
+            letter={z.letter}
+            found={z.found}
+          ></GameTile>
+        );
       })}
       {position != -1 ? (
         <RightArrow clickHandler={RightArrowClick}></RightArrow>
