@@ -7,7 +7,7 @@ export default function GameTile({
 }) {
   return (
     <div
-      className={`font-bold uppercase rounded-lg px-6 py-4 bg-primary-foreground grid-cols-subgrid col-start-${
+      className={`select-none border border-solid border-border font-semibold uppercase rounded-lg px-6 py-4 bg-background flex justify-center grid-cols-subgrid col-start-${
         position + 2
       }`}
       key={position}

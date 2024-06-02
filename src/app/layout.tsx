@@ -11,6 +11,7 @@ import {
 } from "@clerk/nextjs";
 import Header from "@/components/header";
 import Footer from "@/components/Footer";
+import { GameStateProvider } from "@/components/GameContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -43,8 +44,9 @@ export default function RootLayout({
           >
             <div className="w-svw h-svh flex flex-col justify-between items-center">
               <Header></Header>
-              <div>{children}</div>
-
+              <GameStateProvider>
+                <div>{children}</div>
+              </GameStateProvider>
               <Footer></Footer>
             </div>
           </ThemeProvider>
