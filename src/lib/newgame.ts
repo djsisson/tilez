@@ -1,3 +1,4 @@
+"use server";
 import { words_six } from "@/data/6letter";
 import { GameState, GameRow, GameTile } from "./GameTypes";
 
@@ -33,7 +34,7 @@ function mixWords() {
   return output;
 }
 
-export function NewGame(): GameState {
+export async function NewGame(): Promise<GameState> {
   const words = mixWords();
   const _gameState: GameState = {
     gameStart: new Date(),
@@ -47,4 +48,8 @@ export function NewGame(): GameState {
     ),
   };
   return _gameState;
+}
+
+export async function IsWord(word: string): Promise<Boolean> {
+  return words_six.includes(word);
 }
