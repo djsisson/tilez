@@ -22,7 +22,7 @@ const PageWithSignIn = () => {
   return documentMounted
     ? createPortal(
         <div
-          className="modal absolute flex items-center justify-center inset-0 backdrop-blur-sm"
+          className="modal absolute inset-0 flex items-center justify-center backdrop-blur-sm"
           onClick={() => {
             handleClose();
           }}
@@ -41,7 +41,7 @@ const PageWithSignIn = () => {
             />
           </div>
         </div>,
-        document.body
+        document.body,
       )
     : null;
 };

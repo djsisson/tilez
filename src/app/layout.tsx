@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import CustomUserButton from "@/components/CustomUserButton";
 import "./globals.css";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import Header from "@/components/header";
 import Footer from "@/components/Footer";
 import { GameStateProvider } from "@/components/GameContext";
@@ -42,7 +36,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="w-svw h-svh flex flex-col justify-between items-center">
+            <div className="flex h-svh w-svw flex-col items-center justify-between">
               <Header></Header>
               <GameStateProvider>
                 <div>{children}</div>

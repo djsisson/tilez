@@ -8,7 +8,11 @@ import { NewGame } from "@/lib/newgame";
 export default function NewGameButton() {
   const dispatch = useGameStateDispatch();
   return (
-    <Button onClick={async () => dispatch({ type: GameActionType.RESET, payload: await NewGame() })}>
+    <Button
+      onClick={async () =>
+        dispatch({ type: GameActionType.RESET, payload: await NewGame() })
+      }
+    >
       New Game
     </Button>
   );

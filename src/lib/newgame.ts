@@ -43,8 +43,8 @@ export async function NewGame(): Promise<GameState> {
       (x) =>
         ({
           position: Math.floor(Math.random() * x.length) - 1,
-          tiles: x.map((y) => ({ letter: y, found: false } as GameTile)),
-        } as GameRow)
+          tiles: x.map((y) => ({ letter: y, found: false }) as GameTile),
+        }) as GameRow,
     ),
   };
   return _gameState;

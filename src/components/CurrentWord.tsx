@@ -30,7 +30,7 @@ export default function CurrentWord() {
   }, [currentWord]);
 
   return (
-    <div className="px-4 py-2 border border-border border-solid uppercase text-semi-bold">
+    <div className="text-semi-bold border border-solid border-border px-4 py-2 uppercase">
       {currentWord ? currentWord : null}
     </div>
   );
