@@ -15,6 +15,7 @@
     "@clerk/themes": "^2.1.8",
     "@neondatabase/serverless": "^0.9.3",
     "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-hover-card": "^1.0.7",
     "@radix-ui/react-slot": "^1.0.2",
     "@vercel/postgres": "^0.8.0",
     "babel-plugin-react-compiler": "0.0.0-experimental-487cb0e-20240529",
