@@ -26,6 +26,9 @@ const gameStateReducer = (gameState: GameState, action: GameAction) => {
     case GameActionType.RESET: {
       return { ...action.payload };
     }
+    case GameActionType.COMPLETED: {
+      return { ...gameState, completed: true };
+    }
     case GameActionType.FOUND: {
       return {
         ...gameState,
@@ -41,7 +44,7 @@ const gameStateReducer = (gameState: GameState, action: GameAction) => {
     case GameActionType.MOVEROW: {
       return {
         ...gameState,
-        moves: gameState.moves + 1,
+        moves: gameState.completed ? gameState.moves : gameState.moves + 1,
         rows: [
           ...gameState.rows.slice(0, action.payload.rowNumber),
           {
