@@ -44,12 +44,12 @@ export default function GameRow({ rowNumber }: { rowNumber: number }) {
 
   return (
     <div
-      className={`col-span-5 grid grid-cols-[repeat(5,3rem)] gap-4 transition delay-150 duration-300 ease-in-out md:grid-cols-[repeat(5,3.5rem)] lg:grid-cols-[repeat(5,4rem)] ${
+      className={`col-span-5 grid grid-cols-[repeat(5,3.5rem)] gap-4 transition delay-150 duration-300 ease-in-out md:grid-cols-[repeat(5,4rem)] lg:grid-cols-[repeat(5,4.5rem)] ${
         position == 0
           ? ""
           : position == -1
-            ? "translate-x-[4rem] md:translate-x-[4.5rem] lg:translate-x-[5rem]"
-            : "-translate-x-[4rem] md:-translate-x-[4.5rem] lg:-translate-x-[5rem]"
+            ? "translate-x-[4.5rem] md:translate-x-[5rem] lg:translate-x-[5.5rem]"
+            : "-translate-x-[4.5rem] md:-translate-x-[5rem] lg:-translate-x-[5.5rem]"
       }`}
     >
       {position != 1 && (letters.length == 2 ? position != 0 : true) ? (

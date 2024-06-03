@@ -38,6 +38,8 @@ export async function NewGame(): Promise<GameState> {
   const words = mixWords();
   const _gameState: GameState = {
     gameStart: new Date(),
+    completed: false,
+    found: [],
     moves: 0,
     rows: words.map(
       (x) =>
@@ -52,4 +54,11 @@ export async function NewGame(): Promise<GameState> {
 
 export async function IsWord(word: string): Promise<Boolean> {
   return words_six.includes(word);
+}
+
+export async function getAllWords(letters: string[]): Promise<string[]> {
+  const words = [] as string[];
+  const re = new RegExp(letters.map((x) => `[${x}]`).join(""));
+  words_six.filter((x) => re.exec(x)).map((x) => words.push(x));
+  return words;
 }
