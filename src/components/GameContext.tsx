@@ -16,6 +16,8 @@ const _gameState: GameState = {
   gameStart: new Date(),
   moves: 0,
   rows: [],
+  completed: false,
+  found: [],
 };
 
 const gameStateReducer = (gameState: GameState, action: GameAction) => {
@@ -26,12 +28,13 @@ const gameStateReducer = (gameState: GameState, action: GameAction) => {
     case GameActionType.RESET: {
       return { ...action.payload };
     }
-    case GameActionType.COMPLETED: {
-      return { ...gameState, completed: true };
-    }
     case GameActionType.FOUND: {
-      return {
+      const newState = {
         ...gameState,
+        found: [
+          ...(gameState?.found ? [...gameState.found] : []),
+          gameState.rows.map((x) => x.tiles[x.position + 1].letter).join(""),
+        ],
         rows: gameState.rows.map((x) => ({
           ...x,
           tiles: x.tiles.map((y, i) => ({
@@ -40,6 +43,15 @@ const gameStateReducer = (gameState: GameState, action: GameAction) => {
           })),
         })),
       };
+      if (
+        newState.rows.reduce(
+          (a, b) => a && b.tiles.reduce((c, d) => c && d.found, true),
+          true,
+        )
+      ) {
+        newState.completed = true;
+      }
+      return newState;
     }
     case GameActionType.MOVEROW: {
       return {
