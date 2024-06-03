@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { IsWord } from "@/lib/newgame";
 import { GameActionType } from "@/lib/GameTypes";
 import { Badge } from "./ui/badge";
-
+import Help from "./Help";
 
 export default function CurrentWord() {
   const dispatch = useGameStateDispatch();
@@ -37,7 +37,7 @@ export default function CurrentWord() {
     <div className="text-semi-bold border border-solid border-border px-4 py-2 uppercase text-center">
       {currentWord ? <Badge className="p-2">{currentWord}</Badge> : null}
     </div>
-    <div className="text-right"><Badge variant={"outline"}>?</Badge></div>
+    <div className="text-right"><Badge variant={"outline"}><Help></Help></Badge></div>
     </div>
   );
 }

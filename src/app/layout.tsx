@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import Header from "@/components/header";
+import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { GameStateProvider } from "@/components/GameContext";
 
