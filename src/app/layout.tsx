@@ -36,7 +36,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="flex h-svh w-svw flex-col items-center justify-between">
+            <div className="flex h-svh w-svw flex-col items-center justify-between gap-4">
               <Header></Header>
               <GameStateProvider>
                 <div>{children}</div>
