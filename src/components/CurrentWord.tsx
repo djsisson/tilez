@@ -30,6 +30,13 @@ export default function CurrentWord() {
           dispatch({
             type: GameActionType.FOUND,
           });
+          const allFound = gameState.rows.reduce(
+            (a, b) => a && b.tiles[b.position + 1].found,
+            true,
+          );
+          if (allFound) {
+            dispatch({ type: GameActionType.COMPLETED });
+          }
         }
       };
       checkWord();
