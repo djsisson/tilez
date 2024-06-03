@@ -3,7 +3,7 @@
 import GameTile from "./GameTile";
 import LeftArrow from "./LeftArrow";
 import RightArrow from "./RightArrow";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useGameState, useGameStateDispatch } from "./GameContext";
 import * as GameTypes from "@/lib/GameTypes";
 
@@ -44,12 +44,12 @@ export default function GameRow({ rowNumber }: { rowNumber: number }) {
 
   return (
     <div
-      className={`col-span-5 grid grid-cols-5 gap-4 transition delay-150 duration-300 ease-in-out ${
+      className={`col-span-5 grid grid-cols-[repeat(5,3rem)] gap-4 transition delay-150 duration-300 ease-in-out md:grid-cols-[repeat(5,3.5rem)] lg:grid-cols-[repeat(5,4rem)] ${
         position == 0
           ? ""
           : position == -1
-            ? "translate-x-[72px] md:translate-x-[80px] lg:translate-x-[83px]"
-            : "-translate-x-[72px] md:-translate-x-[80px] lg:-translate-x-[83px]"
+            ? "translate-x-[4rem] md:translate-x-[4.5rem] lg:translate-x-[5rem]"
+            : "-translate-x-[4rem] md:-translate-x-[4.5rem] lg:-translate-x-[5rem]"
       }`}
     >
       {position != 1 && (letters.length == 2 ? position != 0 : true) ? (
@@ -65,6 +65,7 @@ export default function GameRow({ rowNumber }: { rowNumber: number }) {
             position={j}
             letter={z.letter}
             found={z.found}
+            active={position == j - 1}
           ></GameTile>
         );
       })}
