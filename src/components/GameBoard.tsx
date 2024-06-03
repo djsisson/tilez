@@ -4,7 +4,7 @@ import NewGameButton from "./NewGameButton";
 
 export default function GameBoard() {
   return (
-    <div className="max-w-prose rounded-lg bg-secondary p-4 gap-4 flex flex-col items-center border-border border border-solid text-sm md:text-base lg:text-lg overflow-hidden">
+    <div className="flex max-w-prose flex-col items-center gap-4 overflow-hidden rounded-lg border border-solid border-border bg-secondary p-4 text-sm md:text-base lg:text-lg">
       <CurrentWord></CurrentWord>
       <div className="grid grid-cols-5 grid-rows-6 gap-4">
         <GameRow rowNumber={0}></GameRow>

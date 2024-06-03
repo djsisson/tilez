@@ -60,7 +60,7 @@ const gameStateReducer = (gameState: GameState, action: GameAction) => {
 
 const GameStateContext = createContext(_gameState);
 const GameStateDispatchContext = createContext<React.Dispatch<GameAction>>(
-  null!
+  null!,
 );
 export const GameStateProvider = ({
   children,

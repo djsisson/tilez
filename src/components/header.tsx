@@ -3,7 +3,7 @@ import CustomUserButton from "./CustomUserButton";
 
 export default function Header() {
   return (
-    <div className="w-full flex justify-between p-4 bg-secondary">
+    <div className="flex w-full justify-between bg-secondary p-4">
       <div>Tilez</div>
       <SignedOut>
         <SignInButton fallbackRedirectUrl="/" signUpFallbackRedirectUrl="/" />

@@ -1,4 +1,4 @@
-import { tilez_users } from "./../../../db/migrations/schema";
+import { tilez_users } from "@/db/migrations/schema";
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { UserJSON, WebhookEvent } from "@clerk/nextjs/server";
@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
   if (!WEBHOOK_SECRET) {
     throw new Error(
-      "Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local"
+      "Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local",
     );
   }
 
@@ -97,7 +97,6 @@ export async function POST(req: Request) {
   }
 
   console.log(`Webhook with and ID of ${id}`); // and type of ${eventType}`)
-  //   console.log('Webhook body:', body)
 
   return new Response("", { status: 200 });
 }

@@ -23,10 +23,10 @@ export const tilez_words = pgTable(
       tilez_words_word_key: unique("tilez_words_word_key").on(table.word),
       tilez_words_word_idx: uniqueIndex("tilez_words_word_idx").using(
         "btree",
-        table.word
+        table.word,
       ),
     };
-  }
+  },
 );
 
 export const tilez_users = pgTable(
@@ -47,20 +47,20 @@ export const tilez_users = pgTable(
     return {
       clerk_id_idx: uniqueIndex("tilez_users_clerk_id_idx").using(
         "btree",
-        table.clerk_id
+        table.clerk_id,
       ),
       username_idx: uniqueIndex("tilez_users_username_idx").using(
         "btree",
-        table.username
+        table.username,
       ),
       tilez_users_clerk_id_key: unique("tilez_users_clerk_id_key").on(
-        table.clerk_id
+        table.clerk_id,
       ),
       tilez_users_username_key: unique("tilez_users_username_key").on(
-        table.username
+        table.username,
       ),
     };
-  }
+  },
 );
 
 export const tilez_games = pgTable(
@@ -86,11 +86,11 @@ export const tilez_games = pgTable(
     return {
       clerk_game_id_idx: uniqueIndex("tilez_games_clerk_game_id_idx").using(
         "btree",
-        table.game_id
+        table.game_id,
       ),
       tilez_games_clerk_game_id_key: unique("tilez_games_clerk_game_id_key").on(
-        table.game_id
+        table.game_id,
       ),
     };
-  }
+  },
 );
