@@ -16,12 +16,14 @@ export default function CurrentWord() {
   const dispatch = useGameStateDispatch();
   const gameState = useGameState();
   const [currentWord, setCurrentWord] = useState([] as string[]);
+  const [definition, setDefinition] = useState("");
 
   useEffect(() => {
     setCurrentWord(gameState.rows.map((x) => x.tiles[x.position + 1].letter));
   }, [gameState]);
 
   useEffect(() => {
+    setDefinition("");
     if (
       !gameState.rows.reduce((a, b) => a && b.tiles[b.position + 1].found, true)
     ) {
@@ -40,24 +42,24 @@ export default function CurrentWord() {
         }
       };
       checkWord();
+    } else {
+      getDefinition();
     }
   }, [currentWord]);
 
   async function getDefinition() {
+    if (!currentWord) return;
     const result = await fetch(
       `https://api.dictionaryapi.dev/api/v2/entries/en/${currentWord.join("")}`,
     );
 
     if (!result.ok) {
-      const errorMessage = result.status;
-      throw errorMessage;
+      return;
     }
-    console.log(result);
     const data = await result.json();
-    console.log(data);
-    const definition = await data[0].meanings[0].definitions[0].definition;
-
-    return definition[0].meanings ? definition : null;
+    const definition = data[0].meanings[0].definitions[0].definition;
+    setDefinition(definition);
+    return;
   }
 
   return (
@@ -66,14 +68,20 @@ export default function CurrentWord() {
         <Badge variant={"outline"}>Your moves: {gameState.moves}</Badge>
       </div>
       <div className="text-semi-bold border border-solid border-border px-4 py-2 text-center uppercase">
-        {currentWord ? (
+        {definition != "" ? (
           <HoverCard>
             <HoverCardTrigger>
-              <Badge className="p-2">{currentWord}</Badge>
+              <Badge className="cursor-pointer p-2">{currentWord}</Badge>
             </HoverCardTrigger>
-            <HoverCardContent>{/* {getDefinition()} */}</HoverCardContent>
+            <HoverCardContent className="border-sold rounded-lg border border-border p-4 normal-case">
+              {definition}
+            </HoverCardContent>
           </HoverCard>
-        ) : null}
+        ) : (
+          <Badge variant={"secondary"} className="p-2">
+            {currentWord}
+          </Badge>
+        )}
       </div>
       <div className="text-right">
         <Badge variant={"outline"}>
