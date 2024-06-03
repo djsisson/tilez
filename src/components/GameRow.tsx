@@ -48,8 +48,8 @@ export default function GameRow({ rowNumber }: { rowNumber: number }) {
         position == 0
           ? ""
           : position == -1
-            ? "translate-x-[79px] md:translate-x-[81px] lg:translate-x-[83px]"
-            : "-translate-x-[79px] md:-translate-x-[81px] lg:-translate-x-[83px]"
+            ? "translate-x-[72px] md:translate-x-[80px] lg:translate-x-[83px]"
+            : "-translate-x-[72px] md:-translate-x-[80px] lg:-translate-x-[83px]"
       }`}
     >
       {position != 1 && (letters.length == 2 ? position != 0 : true) ? (
