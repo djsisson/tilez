@@ -18,6 +18,7 @@ export type GameState = {
   gameStart: Date;
   moves: number;
   rows: GameRow[];
+  completed?: boolean;
 };
 
 export enum GameActionType {
@@ -25,6 +26,7 @@ export enum GameActionType {
   RESET = "RESET",
   MOVEROW = "MOVEROW",
   FOUND = "FOUND",
+  COMPLETED = "COMPLETED",
 }
 
 export type GameAction = {
