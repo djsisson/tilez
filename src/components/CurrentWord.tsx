@@ -134,7 +134,7 @@ export default function CurrentWord() {
                 {currentWord}
               </Badge>
             </HoverCardTrigger>
-            <HoverCardContent className="border-sold rounded-lg border border-border normal-case">
+            <HoverCardContent className="border-solid rounded-lg border border-border normal-case">
               {definition}
             </HoverCardContent>
           </HoverCard>
