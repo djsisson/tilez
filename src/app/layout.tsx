@@ -39,7 +39,7 @@ export default function RootLayout({
             <div className="flex h-svh w-svw flex-col items-center justify-between gap-4">
               <GameStateProvider>
                 <Header></Header>
-                <div>{children}</div>
+                {children}
                 <Footer></Footer>
               </GameStateProvider>
             </div>
