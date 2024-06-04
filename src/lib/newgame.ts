@@ -1,6 +1,10 @@
 "use server";
 import { words_six } from "@/data/6letter";
 import { GameState, GameRow, GameTile } from "./GameTypes";
+import { db } from "@/db/db";
+import { tilez_games, tilez_users } from "@/db/migrations/schema";
+import { auth } from "@clerk/nextjs/server";
+import { eq } from "drizzle-orm";
 
 function getRandomWord() {
   const i = Math.floor(Math.random() * words_six.length);
@@ -61,4 +65,28 @@ export async function getAllWords(letters: string[]): Promise<string[]> {
   const re = new RegExp(letters.map((x) => `[${x}]`).join(""));
   words_six.filter((x) => re.exec(x)).map((x) => words.push(x));
   return words;
+}
+
+export async function uploadScore(game: GameState): Promise<boolean> {
+  const { userId } = auth();
+  if (!userId) return false;
+  const userIfFromClerk = await db
+    .select()
+    .from(tilez_users)
+    .where(eq(tilez_users.clerk_id, userId));
+  if (!userIfFromClerk.length) return false;
+  const newGame = await db
+    .insert(tilez_games)
+    .values({
+      user_id: userIfFromClerk[0].id,
+      game_id: game.rows
+        .map((x) => x.tiles.map((y) => y.letter).join(""))
+        .join("-"),
+      game_start: new Date(game.gameStart).toUTCString(),
+      num_moves: game.moves,
+      completed: true,
+    })
+    .onConflictDoNothing()
+    .returning();
+  return newGame.length > 0;
 }

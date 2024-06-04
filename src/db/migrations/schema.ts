@@ -12,23 +12,6 @@ import {
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 
-export const tilez_words = pgTable(
-  "tilez_words",
-  {
-    word: varchar("word", { length: 6 }).notNull(),
-    length: integer("length").default(6).notNull(),
-  },
-  (table) => {
-    return {
-      tilez_words_word_key: unique("tilez_words_word_key").on(table.word),
-      tilez_words_word_idx: uniqueIndex("tilez_words_word_idx").using(
-        "btree",
-        table.word,
-      ),
-    };
-  },
-);
-
 export const tilez_users = pgTable(
   "tilez_users",
   {
@@ -77,8 +60,8 @@ export const tilez_games = pgTable(
         onDelete: "cascade",
         onUpdate: "cascade",
       }),
-    game_start: timestamp("game_start", { mode: "string" }).defaultNow(),
-    game_end: timestamp("game_end", { mode: "string" }),
+    game_start: timestamp("game_start", { mode: "string" }),
+    game_end: timestamp("game_end", { mode: "string" }).defaultNow(),
     num_moves: integer("num_moves").default(0),
     completed: boolean("completed").default(false),
   },

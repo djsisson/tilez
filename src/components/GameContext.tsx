@@ -28,6 +28,9 @@ const gameStateReducer = (gameState: GameState, action: GameAction) => {
     case GameActionType.RESET: {
       return { ...action.payload };
     }
+    case GameActionType.UPLOADED: {
+      return { ...gameState, uploaded: true };
+    }
     case GameActionType.FOUND: {
       const newState = {
         ...gameState,

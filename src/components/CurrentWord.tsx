@@ -2,10 +2,11 @@
 
 import { useGameState, useGameStateDispatch } from "./GameContext";
 import { useEffect, useState } from "react";
-import { IsWord, getAllWords } from "@/lib/newgame";
+import { IsWord, getAllWords, uploadScore } from "@/lib/newgame";
 import { GameActionType } from "@/lib/GameTypes";
 import { Badge } from "./ui/badge";
 import Help from "./Help";
+import { useUser } from "@clerk/clerk-react";
 import {
   HoverCard,
   HoverCardContent,
@@ -20,6 +21,7 @@ export default function CurrentWord() {
   const [definition, setDefinition] = useState("");
   const [completed, setCompleted] = useState(false);
   const [allWords, setAllwords] = useState([] as string[]);
+  const { isSignedIn, isLoaded } = useUser();
 
   useEffect(() => {
     setCurrentWord(gameState.rows.map((x) => x.tiles[x.position + 1].letter));
@@ -27,7 +29,7 @@ export default function CurrentWord() {
   }, [gameState]);
 
   useEffect(() => {
-    if (completed) {
+    if (completed && allWords.length == 0) {
       async function getWords() {
         const words = await getAllWords(
           gameState.rows.map((x) => x.tiles.map((y) => y.letter).join("")),
@@ -37,6 +39,16 @@ export default function CurrentWord() {
       getWords();
     }
   }, [completed]);
+
+  useEffect(() => {
+    if (!gameState.uploaded && isSignedIn && isLoaded && completed) {
+      async function upload() {
+        const uploaded = await uploadScore(gameState);
+        if (uploaded) dispatch({ type: GameActionType.UPLOADED });
+      }
+      upload();
+    }
+  }, [isSignedIn, isLoaded, completed]);
 
   useEffect(() => {
     setDefinition("");
@@ -65,6 +77,7 @@ export default function CurrentWord() {
     if (currentWord.length == 0) return;
     const result = await fetch(
       `https://api.dictionaryapi.dev/api/v2/entries/en/${currentWord.join("")}`,
+      { cache: "force-cache" },
     );
 
     if (!result.ok) {
@@ -82,15 +95,15 @@ export default function CurrentWord() {
       <div className="flex flex-col gap-4 rounded-lg border border-solid border-border bg-secondary p-4">
         <div>Congratulations, you won!</div>
         <div>you took {gameState.moves} moves</div>
-        <div className="flex gap-4">
-          <div className="flex flex-col">
+        <div className="flex gap-2">
+          <div className="flex flex-col border-r border-solid border-secondary-foreground pr-2">
             <div>Found Words</div>
             {gameState.found.map((x) => (
               <div key={x}>{x}</div>
             ))}
           </div>
           <div className="flex flex-col">
-            <div>Words Not Found</div>
+            <div>Other Words</div>
             {allWords.map((x) => (
               <div key={x}>{x}</div>
             ))}
@@ -105,25 +118,25 @@ export default function CurrentWord() {
     <div className="grid w-full grid-cols-3 items-center">
       <div>
         <Badge className="text-base" variant={"outline"}>
-          {gameState.moves}
+          {gameState.moves == 0 ? "" : gameState.moves}
         </Badge>
       </div>
-      <div className="border border-solid border-border px-4 py-2 text-center uppercase">
+      <div className="border border-solid border-border text-center uppercase">
         {definition != "" ? (
           <HoverCard>
             <HoverCardTrigger>
-              <Badge className="cursor-pointer p-2 text-base md:text-xl lg:text-2xl">
+              <Badge className="cursor-pointer text-base md:text-xl lg:text-2xl">
                 {currentWord}
               </Badge>
             </HoverCardTrigger>
-            <HoverCardContent className="border-sold rounded-lg border border-border p-4 normal-case">
+            <HoverCardContent className="border-sold rounded-lg border border-border normal-case">
               {definition}
             </HoverCardContent>
           </HoverCard>
         ) : (
           <Badge
             variant={"secondary"}
-            className="p-2 text-base md:text-xl lg:text-2xl"
+            className="text-base md:text-xl lg:text-2xl"
           >
             {currentWord}
           </Badge>
