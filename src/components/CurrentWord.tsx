@@ -55,7 +55,6 @@ export default function CurrentWord() {
 
   useEffect(() => {
     setDefinition("");
-    if (allWords.length != 0) setAllwords([]);
     if (
       !gameState.rows.reduce((a, b) => a && b.tiles[b.position + 1].found, true)
     ) {
@@ -137,7 +136,7 @@ export default function CurrentWord() {
                 {currentWord}
               </Badge>
             </HoverCardTrigger>
-            <HoverCardContent className="border-solid rounded-lg border border-border normal-case">
+            <HoverCardContent className="rounded-lg border border-solid border-border normal-case">
               {definition}
             </HoverCardContent>
           </HoverCard>
