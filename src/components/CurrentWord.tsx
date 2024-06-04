@@ -1,5 +1,6 @@
 "use client";
 
+import { SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import { useGameState, useGameStateDispatch } from "./GameContext";
 import { useEffect, useState } from "react";
 import { IsWord, getAllWords, uploadScore } from "@/lib/newgame";
@@ -13,6 +14,8 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import NewGameButton from "./NewGameButton";
+import { Button } from "./ui/button";
+import { X } from "lucide-react";
 
 export default function CurrentWord() {
   const dispatch = useGameStateDispatch();
@@ -21,6 +24,9 @@ export default function CurrentWord() {
   const [definition, setDefinition] = useState("");
   const [completed, setCompleted] = useState(false);
   const [allWords, setAllwords] = useState([] as string[]);
+  const [definitions, setDefinitions] = useState(
+    new Map() as Map<string, string>,
+  );
   const { isSignedIn, isLoaded } = useUser();
 
   useEffect(() => {
@@ -69,7 +75,15 @@ export default function CurrentWord() {
     } else {
       const checkWord = async () => {
         if (await IsWord(currentWord.join(""))) {
-          getDefinition();
+          if (definitions.has(currentWord.join(""))) {
+            setDefinition(definitions.get(currentWord.join("")) || "");
+          } else {
+            const newDefinition = await getDefinition();
+            setDefinition(newDefinition);
+            setDefinitions((old) =>
+              new Map(old).set(currentWord.join(""), newDefinition),
+            );
+          }
         }
       };
       checkWord();
@@ -84,13 +98,11 @@ export default function CurrentWord() {
     );
 
     if (!result.ok) {
-      setDefinition("No definition found");
-      return;
+      return "No definition found";
     }
     const data = await result.json();
     const definition = data[0].meanings[0].definitions[0].definition;
-    setDefinition(definition);
-    return;
+    return definition;
   }
 
   return completed ? (
@@ -102,13 +114,17 @@ export default function CurrentWord() {
           <div className="flex flex-col border-secondary-foreground p-2">
             <div>Found words:</div>
             {gameState.found.map((x) => (
-              <div key={x} className="italic">
+              <div
+                key={x}
+                className="cursor-pointer italic"
+                title={definitions.get(x) || ""}
+              >
                 {x}
               </div>
             ))}
           </div>
           <div className="flex flex-col border-secondary-foreground p-2">
-            <div>Words you could have found:</div>
+            <div>Other Words:</div>
             {allWords.map((x) => (
               <div key={x} className="italic">
                 {x}
@@ -116,23 +132,39 @@ export default function CurrentWord() {
             ))}
           </div>
         </div>
-        <div className="text-center">
+        <div className="flex justify-around gap-4 text-center">
           <NewGameButton></NewGameButton>
+          <SignedOut>
+            <Button asChild>
+              <SignInButton
+                fallbackRedirectUrl="/"
+                signUpFallbackRedirectUrl="/"
+              />
+            </Button>
+          </SignedOut>
         </div>
       </div>
     </div>
   ) : (
-    <div className="grid w-full grid-cols-3 items-center">
-      <div>
-        <Badge className="text-base" variant={"outline"}>
-          {gameState.moves == 0 ? "" : gameState.moves}
-        </Badge>
+    <div className="grid w-full grid-cols-3 place-content-center">
+      <div className="flex items-center">
+        {gameState.moves == 0 ? (
+          ""
+        ) : (
+          <Badge
+            title="Moves"
+            className="border border-solid border-muted-foreground text-base"
+            variant={"outline"}
+          >
+            {gameState.moves}
+          </Badge>
+        )}
       </div>
-      <div className="border border-solid border-border text-center uppercase">
+      <div title="Current Word" className="flex items-center justify-center">
         {definition != "" ? (
           <HoverCard>
             <HoverCardTrigger>
-              <Badge className="cursor-pointer text-base md:text-xl lg:text-2xl">
+              <Badge className="cursor-pointer border border-solid border-muted-foreground text-center text-base uppercase md:text-xl lg:text-2xl">
                 {currentWord}
               </Badge>
             </HoverCardTrigger>
@@ -143,14 +175,17 @@ export default function CurrentWord() {
         ) : (
           <Badge
             variant={"secondary"}
-            className="text-base md:text-xl lg:text-2xl"
+            className="border border-solid border-muted-foreground text-center text-base uppercase md:text-xl lg:text-2xl"
           >
             {currentWord}
           </Badge>
         )}
       </div>
-      <div className="text-right">
-        <Badge variant={"outline"} className="text-base">
+      <div className="flex items-center justify-end" title="Help">
+        <Badge
+          variant={"outline"}
+          className="border border-solid border-muted-foreground text-base"
+        >
           <Help></Help>
         </Badge>
       </div>

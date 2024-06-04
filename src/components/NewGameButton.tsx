@@ -9,6 +9,7 @@ export default function NewGameButton() {
   const dispatch = useGameStateDispatch();
   return (
     <Button
+      title="New Game"
       onClick={async () =>
         dispatch({ type: GameActionType.RESET, payload: await NewGame() })
       }

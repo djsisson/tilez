@@ -4,9 +4,9 @@ import NewGameButton from "./NewGameButton";
 
 export default function GameBoard() {
   return (
-    <div className="flex max-w-prose select-none flex-col items-center gap-4 overflow-hidden rounded-lg border border-solid border-border bg-secondary px-4 py-2 text-lg md:text-2xl lg:text-4xl">
+    <div className="flex max-w-prose select-none flex-col items-center gap-3 overflow-hidden rounded-lg border border-solid border-border bg-secondary px-4 py-2 text-lg md:text-2xl lg:text-4xl">
       <CurrentWord></CurrentWord>
-      <div className="grid grid-cols-5 grid-rows-6 gap-4">
+      <div className="grid grid-cols-5 grid-rows-6 gap-3">
         <GameRow rowNumber={0}></GameRow>
         <GameRow rowNumber={1}></GameRow>
         <GameRow rowNumber={2}></GameRow>
@@ -14,7 +14,7 @@ export default function GameBoard() {
         <GameRow rowNumber={4}></GameRow>
         <GameRow rowNumber={5}></GameRow>
       </div>
-      <div className="p-4">
+      <div>
         <NewGameButton></NewGameButton>
       </div>
     </div>

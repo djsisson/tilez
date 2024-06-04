@@ -104,7 +104,8 @@ export const GameStateProvider = ({
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("Tilez", JSON.stringify(gameState));
+    if (gameState.rows.length > 0)
+      localStorage.setItem("Tilez", JSON.stringify(gameState));
   }, [gameState]);
 
   return (
