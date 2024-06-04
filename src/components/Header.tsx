@@ -4,7 +4,7 @@ import GameScore from "./GameScore";
 export default function Header() {
   return (
     <div className="flex w-full items-center justify-between bg-secondary px-4 py-2">
-      <div>Tilez</div>
+      <div className="font-bold text-center">Tilez</div>
       <SignedOut>
         <SignInButton fallbackRedirectUrl="/" signUpFallbackRedirectUrl="/" />
       </SignedOut>

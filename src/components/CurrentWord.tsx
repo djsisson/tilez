@@ -55,6 +55,7 @@ export default function CurrentWord() {
 
   useEffect(() => {
     setDefinition("");
+    if (allWords.length != 0) setAllwords([]);
     if (
       !gameState.rows.reduce((a, b) => a && b.tiles[b.position + 1].found, true)
     ) {
@@ -95,24 +96,28 @@ export default function CurrentWord() {
 
   return completed ? (
     <div className="modal absolute inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
-      <div className="flex flex-col gap-4 rounded-lg border border-solid border-border bg-secondary p-4">
-        <div>Congratulations, you won!</div>
-        <div>you took {gameState.moves} moves</div>
+      <div className="flex flex-col gap-4 rounded-lg bg-secondary p-4">
+        <div className="text-center">Congratulations, you won!</div>
+        <div className="text-center">You made {gameState.moves} moves.</div>
         <div className="flex gap-2">
-          <div className="flex flex-col border-r border-solid border-secondary-foreground pr-2">
-            <div>Found Words</div>
+          <div className="flex flex-col border-secondary-foreground p-2">
+            <div>Found words:</div>
             {gameState.found.map((x) => (
-              <div key={x}>{x}</div>
+              <div key={x} className="italic">
+                {x}
+              </div>
             ))}
           </div>
-          <div className="flex flex-col">
-            <div>Other Words</div>
+          <div className="flex flex-col border-secondary-foreground p-2">
+            <div>Words you could have found:</div>
             {allWords.map((x) => (
-              <div key={x}>{x}</div>
+              <div key={x} className="italic">
+                {x}
+              </div>
             ))}
           </div>
         </div>
-        <div>
+        <div className="text-center">
           <NewGameButton></NewGameButton>
         </div>
       </div>
@@ -132,7 +137,7 @@ export default function CurrentWord() {
                 {currentWord}
               </Badge>
             </HoverCardTrigger>
-            <HoverCardContent className="border-sold rounded-lg border border-border normal-case">
+            <HoverCardContent className="border-solid rounded-lg border border-border normal-case">
               {definition}
             </HoverCardContent>
           </HoverCard>
