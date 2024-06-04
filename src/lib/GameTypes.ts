@@ -31,10 +31,25 @@ export enum GameActionType {
   UPLOADED = "UPLOADED",
 }
 
-export type GameAction = {
-  type: GameActionType;
-  payload?: any;
-};
+export type GameAction =
+  | {
+      type: GameActionType.LOAD_GAME;
+      payload: GameState;
+    }
+  | {
+      type: GameActionType.RESET;
+      payload: GameState;
+    }
+  | {
+      type: GameActionType.UPLOADED;
+    }
+  | {
+      type: GameActionType.FOUND;
+    }
+  | {
+      type: GameActionType.MOVEROW;
+      payload: MoveRow;
+    };
 
 export type MoveRow = {
   rowNumber: number;

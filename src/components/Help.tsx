@@ -26,7 +26,7 @@ export default function Help() {
               width={300}
               height={100}
             />
-            <DialogTitle>
+            <DialogTitle className="text-center">
               Align tiles to spell a word. Selected tiles are blue.
             </DialogTitle>
           </div>
@@ -37,7 +37,7 @@ export default function Help() {
               width={300}
               height={100}
             />
-            <DialogTitle>
+            <DialogTitle className="text-center">
               Tiles where you have found a word turn green.
             </DialogTitle>
           </div>
@@ -48,7 +48,7 @@ export default function Help() {
               width={300}
               height={100}
             />
-            <DialogTitle>
+            <DialogTitle className="text-center">
               When you have found a word, hover over the word at the top and you
               can find the definition!
             </DialogTitle>
