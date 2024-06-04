@@ -38,6 +38,9 @@ export default function CurrentWord() {
       }
       getWords();
     }
+    if (!completed && allWords.length > 0) {
+      setAllwords([]);
+    }
   }, [completed]);
 
   useEffect(() => {

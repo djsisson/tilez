@@ -4,7 +4,8 @@ import { GameState, GameRow, GameTile } from "./GameTypes";
 import { db } from "@/db/db";
 import { tilez_games, tilez_users } from "@/db/migrations/schema";
 import { auth } from "@clerk/nextjs/server";
-import { eq } from "drizzle-orm";
+import { avg, count, eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 function getRandomWord() {
   const i = Math.floor(Math.random() * words_six.length);
@@ -53,6 +54,7 @@ export async function NewGame(): Promise<GameState> {
         }) as GameRow,
     ),
   };
+  revalidatePath("/");
   return _gameState;
 }
 
@@ -67,18 +69,24 @@ export async function getAllWords(letters: string[]): Promise<string[]> {
   return words;
 }
 
-export async function uploadScore(game: GameState): Promise<boolean> {
+async function getUserIdFromClerkId() {
   const { userId } = auth();
   if (!userId) return false;
-  const userIfFromClerk = await db
+  const userIdFromClerk = await db
     .select()
     .from(tilez_users)
     .where(eq(tilez_users.clerk_id, userId));
-  if (!userIfFromClerk.length) return false;
+  if (!userIdFromClerk.length) return false;
+  return userIdFromClerk[0].id;
+}
+
+export async function uploadScore(game: GameState): Promise<boolean> {
+  const userId = await getUserIdFromClerkId();
+  if (!userId) return false;
   const newGame = await db
     .insert(tilez_games)
     .values({
-      user_id: userIfFromClerk[0].id,
+      user_id: userId,
       game_id: game.rows
         .map((x) => x.tiles.map((y) => y.letter).join(""))
         .join("-"),
@@ -89,4 +97,14 @@ export async function uploadScore(game: GameState): Promise<boolean> {
     .onConflictDoNothing()
     .returning();
   return newGame.length > 0;
+}
+
+export async function getScore() {
+  const userId = await getUserIdFromClerkId();
+  if (!userId) return { games: 0, average: "0" };
+  const scores = await db
+    .select({ games: count(), average: avg(tilez_games.num_moves) })
+    .from(tilez_games)
+    .where(eq(tilez_games.user_id, userId));
+  return scores[0];
 }
