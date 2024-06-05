@@ -1,8 +1,13 @@
 "use client";
 
-import React, { createContext, useContext, useReducer, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  useEffect,
+} from "react";
 import { GameAction, GameState, GameActionType } from "@/lib/GameTypes";
-import { NewGame } from "@/lib/newgame";
+import { NewGame } from "@/lib/GameLogic";
 
 export const useGameState = () => {
   return useContext(GameStateContext);
@@ -20,13 +25,16 @@ const _gameState: GameState = {
   found: [],
 };
 
-const gameStateReducer = (gameState: GameState, action: GameAction) => {
+const gameStateReducer = (
+  gameState: GameState,
+  action: GameAction,
+): GameState => {
   switch (action.type) {
     case GameActionType.LOAD_GAME: {
-      return { ...action.payload };
+      return { ...(action.payload as GameState) };
     }
     case GameActionType.RESET: {
-      return { ...action.payload };
+      return { ...(action.payload as GameState) };
     }
     case GameActionType.UPLOADED: {
       return { ...gameState, uploaded: true };
@@ -85,8 +93,10 @@ export const GameStateProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [gameState, dispatch] = useReducer(gameStateReducer, _gameState);
-
+  const [gameState, dispatch] = useReducer(gameStateReducer, _gameState) as [
+    GameState,
+    React.Dispatch<GameAction>,
+  ];
   useEffect(() => {
     const localState = localStorage.getItem("Tilez");
 
@@ -98,7 +108,7 @@ export const GameStateProvider = ({
     } else {
       dispatch({
         type: GameActionType.LOAD_GAME,
-        payload: JSON.parse(localState),
+        payload: JSON.parse(localState) as GameState,
       });
     }
   }, []);

@@ -1,6 +1,11 @@
+import { MouseEventHandler } from "react";
 import { FaChevronLeft } from "react-icons/fa";
 
-export default function LeftArrow({ clickHandler }: { clickHandler: any }) {
+export default function LeftArrow({
+  clickHandler,
+}: {
+  clickHandler: MouseEventHandler<HTMLDivElement>;
+}) {
   return (
     <div
       onClick={clickHandler}

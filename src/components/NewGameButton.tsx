@@ -3,7 +3,7 @@
 import { useGameStateDispatch } from "./GameContext";
 import { Button } from "./ui/button";
 import { GameActionType } from "@/lib/GameTypes";
-import { NewGame } from "@/lib/newgame";
+import { NewGame } from "@/lib/GameLogic";
 
 export default function NewGameButton() {
   const dispatch = useGameStateDispatch();

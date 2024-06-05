@@ -41,18 +41,24 @@ function mixWords() {
 
 export async function NewGame(): Promise<GameState> {
   const words = mixWords();
-  const _gameState: GameState = {
-    gameStart: new Date(),
-    completed: false,
-    found: [],
-    moves: 0,
-    rows: words.map(
+  let rows = [] as GameRow[];
+  do {
+    rows = words.map(
       (x) =>
         ({
           position: Math.floor(Math.random() * x.length) - 1,
           tiles: x.map((y) => ({ letter: y, found: false }) as GameTile),
         }) as GameRow,
-    ),
+    );
+  } while (
+    words_six.includes(rows.map((x) => x.tiles[x.position + 1].letter).join(""))
+  );
+  const _gameState: GameState = {
+    gameStart: new Date(),
+    completed: false,
+    found: [],
+    moves: 0,
+    rows: rows,
   };
   revalidatePath("/");
   return _gameState;
