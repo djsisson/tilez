@@ -108,7 +108,7 @@ export default function CurrentWord() {
 
   return completed ? (
     <div className="modal absolute inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
-      <div className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-1">
+      <div className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-1 rounded-lg">
         <div className="flex flex-col gap-4 rounded-lg bg-secondary p-4">
           <div className="text-center">Congratulations, you won!</div>
           <div className="text-center">You made {gameState.moves} moves.</div>
