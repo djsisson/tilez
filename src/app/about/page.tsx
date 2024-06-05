@@ -27,12 +27,16 @@ const AboutPage = () => {
             onClick={(e) => {
               e.stopPropagation();
             }}
-          >
-          
-          </div>
-          <div>
-            <h1>Welcome to Tilez! The game which shall meet all your vocabulary needs - and some!</h1>
-            <h2 className="pt-10">Created by Darren Sisson, Colin Carter, Jaya Chedumbarum Pillay & Sarah Wiseman.</h2>
+          ></div>
+          <div className="p-10">
+            <h1>
+              Welcome to Tilez! The game which shall meet all your vocabulary
+              needs - and some!
+            </h1>
+            <h2 className="pt-10">
+              Created by Darren Sisson, Colin Carter, Jaya Chedumbarum Pillay &
+              Sarah Wiseman.
+            </h2>
           </div>
         </div>,
         document.body,
