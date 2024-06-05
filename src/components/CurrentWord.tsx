@@ -20,7 +20,7 @@ export default function CurrentWord() {
   const dispatch = useGameStateDispatch();
   const gameState = useGameState();
   const [currentWord, setCurrentWord] = useState([] as string[]);
-  const [definition, setDefinition] = useState("");
+  const [currentDefinition, setCurrentDefinition] = useState("");
   const [completed, setCompleted] = useState(false);
   const [allWords, setAllwords] = useState([] as string[]);
   const [hoverOpen, setHoverOpen] = useState(false);
@@ -61,7 +61,7 @@ export default function CurrentWord() {
   }, [isSignedIn, isLoaded, completed]);
 
   useEffect(() => {
-    setDefinition("");
+    setCurrentDefinition("");
     if (
       !gameState.rows.reduce((a, b) => a && b.tiles[b.position + 1].found, true)
     ) {
@@ -77,10 +77,10 @@ export default function CurrentWord() {
       const checkWord = async () => {
         if (await IsWord(currentWord.join(""))) {
           if (definitions.has(currentWord.join(""))) {
-            setDefinition(definitions.get(currentWord.join("")) || "");
+            setCurrentDefinition(definitions.get(currentWord.join("")) || "");
           } else {
             const newDefinition = await getDefinition();
-            setDefinition(newDefinition);
+            setCurrentDefinition(newDefinition);
             setDefinitions((old) =>
               new Map(old).set(currentWord.join(""), newDefinition),
             );
@@ -108,7 +108,7 @@ export default function CurrentWord() {
 
   return completed ? (
     <div className="modal absolute inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
-      <div className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-1 rounded-lg">
+      <div className="rounded-lg bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-1">
         <div className="flex flex-col gap-4 rounded-lg bg-secondary p-4">
           <div className="text-center">Congratulations, you won!</div>
           <div className="text-center">You made {gameState.moves} moves.</div>
@@ -178,13 +178,13 @@ export default function CurrentWord() {
           <Popover open={hoverOpen}>
             <PopoverTrigger>
               <Badge
-                variant={`${definition ? "default" : "secondary"}`}
-                className={`cursor-pointer text-center text-base uppercase md:text-xl lg:text-2xl ${definition ? "" : "border border-solid border-muted-foreground"}`}
+                variant={`${currentDefinition ? "default" : "secondary"}`}
+                className={`cursor-pointer text-center text-base uppercase md:text-xl lg:text-2xl ${currentDefinition ? "" : "border border-solid border-muted-foreground"}`}
               >
                 {currentWord}
               </Badge>
             </PopoverTrigger>
-            {definition && (
+            {currentDefinition && (
               <PopoverContent
                 onMouseEnter={() => {
                   clearTimeout(ref.current);
@@ -196,7 +196,7 @@ export default function CurrentWord() {
                 }}
                 className="rounded-lg border border-solid border-border normal-case"
               >
-                {definition}
+                {currentDefinition}
               </PopoverContent>
             )}
           </Popover>

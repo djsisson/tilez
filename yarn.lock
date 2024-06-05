@@ -1508,15 +1508,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-popover@npm:^0":
-  version: 0.5.8
-  resolution: "@types/react-popover@npm:0.5.8"
-  dependencies:
-    "@types/react": "npm:*"
-  checksum: 10c0/03e273c7a914ad16a5922106963121bf693b2296a9566e908e336a73fddb75e3a75ceac92b08e787799ba847c345d4e524b0840c8a3b6bf73ad2e009a98f1d5d
-  languageName: node
-  linkType: hard
-
 "@types/react@npm:*, @types/react@npm:^18":
   version: 18.3.3
   resolution: "@types/react@npm:18.3.3"
@@ -2227,15 +2218,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-vendor@npm:^0.3.1":
-  version: 0.3.8
-  resolution: "css-vendor@npm:0.3.8"
-  dependencies:
-    is-in-browser: "npm:^1.0.2"
-  checksum: 10c0/8489ee1d83209ca6323d0158000413ec56387f567554c139ec2769c535858ff3a25c2a209540a670cf0586e82da2f6bea753f598e5eaa4b6327d07558b7aea31
-  languageName: node
-  linkType: hard
-
 "cssesc@npm:^3.0.0":
   version: 3.0.0
   resolution: "cssesc@npm:3.0.0"
@@ -2308,15 +2290,6 @@ __metadata:
     supports-color:
       optional: true
   checksum: 10c0/082c375a2bdc4f4469c99f325ff458adad62a3fc2c482d59923c260cb08152f34e2659f72b3767db8bb2f21ca81a60a42d1019605a412132d7b9f59363a005cc
-  languageName: node
-  linkType: hard
-
-"debug@npm:^2.6.8":
-  version: 2.6.9
-  resolution: "debug@npm:2.6.9"
-  dependencies:
-    ms: "npm:2.0.0"
-  checksum: 10c0/121908fb839f7801180b69a7e218a40b5a0b718813b886b7d6bdb82001b931c938e2941d1e4450f33a1b1df1da653f5f7a0440c197f29fbf8a6e9d45ff6ef589
   languageName: node
   linkType: hard
 
@@ -3758,13 +3731,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-in-browser@npm:^1.0.2":
-  version: 1.1.3
-  resolution: "is-in-browser@npm:1.1.3"
-  checksum: 10c0/87e6119a56ec3d84910eb6ad855b4a3ac05b242fc2bc2c28abbf978f76b5a834ec5622165035acaf2844a85856b1a0fbc12bd0cb1ce9e86314ebec675c6fe856
-  languageName: node
-  linkType: hard
-
 "is-lambda@npm:^1.0.1":
   version: 1.0.1
   resolution: "is-lambda@npm:1.0.1"
@@ -4107,35 +4073,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash._getnative@npm:^3.0.0":
-  version: 3.9.1
-  resolution: "lodash._getnative@npm:3.9.1"
-  checksum: 10c0/858cff25fc52353a1e39f44ff87fc1e1e8a85da513818f0caebe50c2795cf5cbce9d71a3e91ec0972bee3b174a74d697a38c6bb16d0b416dcc32322ae152a104
-  languageName: node
-  linkType: hard
-
-"lodash.debounce@npm:^3.0.0":
-  version: 3.1.1
-  resolution: "lodash.debounce@npm:3.1.1"
-  dependencies:
-    lodash._getnative: "npm:^3.0.0"
-  checksum: 10c0/807448622e95cefa4f31f06079f63a58fc2c7c5781fa5c58d910d1c5d52019da82dcc4cc846ed4bc0302d290f1de342cec7e84a5224d7d7db1380fca67922b46
-  languageName: node
-  linkType: hard
-
 "lodash.merge@npm:^4.6.2":
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
   checksum: 10c0/402fa16a1edd7538de5b5903a90228aa48eb5533986ba7fa26606a49db2572bf414ff73a2c9f5d5fd36b31c46a5d5c7e1527749c07cbcf965ccff5fbdf32c506
-  languageName: node
-  linkType: hard
-
-"lodash.throttle@npm:^3.0.3":
-  version: 3.0.4
-  resolution: "lodash.throttle@npm:3.0.4"
-  dependencies:
-    lodash.debounce: "npm:^3.0.0"
-  checksum: 10c0/c18926aa11b8d98eff13ac7a8202d3d6370f194f619be4ce72bbe85dac2de3183a71e7b18d32acad1a43eb797861f4633c3d2cc125614d4d35efa21497beb885
   languageName: node
   linkType: hard
 
@@ -4350,13 +4291,6 @@ __metadata:
   bin:
     mkdirp: bin/cmd.js
   checksum: 10c0/46ea0f3ffa8bc6a5bc0c7081ffc3907777f0ed6516888d40a518c5111f8366d97d2678911ad1a6882bf592fa9de6c784fea32e1687bb94e1f4944170af48a5cf
-  languageName: node
-  linkType: hard
-
-"ms@npm:2.0.0":
-  version: 2.0.0
-  resolution: "ms@npm:2.0.0"
-  checksum: 10c0/f8fda810b39fd7255bbdc451c46286e549794fcc700dc9cd1d25658bbc4dc2563a5de6fe7c60f798a16a60c6ceb53f033cb353f493f0cf63e5199b702943159d
   languageName: node
   linkType: hard
 
@@ -5103,7 +5037,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.5.10, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -5159,18 +5093,6 @@ __metadata:
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: 10c0/33977da7a5f1a287936a0c85639fec6ca74f4f15ef1e59a6bc20338fc73dc69555381e211f7a3529b8150a1f71e4225525b41b60b52965bda53ce7d47377ada1
-  languageName: node
-  linkType: hard
-
-"react-popover@npm:^0.5.10":
-  version: 0.5.10
-  resolution: "react-popover@npm:0.5.10"
-  dependencies:
-    css-vendor: "npm:^0.3.1"
-    debug: "npm:^2.6.8"
-    lodash.throttle: "npm:^3.0.3"
-    prop-types: "npm:^15.5.10"
-  checksum: 10c0/42371459a6a8aa072dc07b2931a2e1d5ef520a293130c3b3986951ac52d45d6deb938419d29a8068cd20b82897b9c4793dbd9ce2344dd349b13f43c5af0f0b2f
   languageName: node
   linkType: hard
 
@@ -5995,7 +5917,6 @@ __metadata:
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
-    "@types/react-popover": "npm:^0"
     "@vercel/postgres": "npm:^0.8.0"
     babel-plugin-react-compiler: "npm:0.0.0-experimental-487cb0e-20240529"
     class-variance-authority: "npm:^0.7.0"
@@ -6013,7 +5934,6 @@ __metadata:
     react: "npm:19.0.0-rc-f994737d14-20240522"
     react-dom: "npm:19.0.0-rc-f994737d14-20240522"
     react-icons: "npm:^5.2.1"
-    react-popover: "npm:^0.5.10"
     svix: "npm:^1.24.0"
     tailwind-merge: "npm:^2.3.0"
     tailwindcss: "npm:^3.4.1"
