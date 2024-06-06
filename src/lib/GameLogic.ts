@@ -1,5 +1,7 @@
 "use server";
 import { words_six } from "@/data/6letter";
+import { words_easy } from "@/data/english6-all";
+import { filter } from "@/data/_filtered";
 import { GameState, GameRow, GameTile } from "./GameTypes";
 import { db } from "@/db/db";
 import { tilez_games, tilez_users } from "@/db/migrations/schema";
@@ -8,8 +10,8 @@ import { avg, count, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 function getRandomWord() {
-  const i = Math.floor(Math.random() * words_six.length);
-  return words_six[i];
+  const i = Math.floor(Math.random() * words_easy.length);
+  return words_easy[i];
 }
 
 function shuffleArray(array: string[]) {
@@ -35,7 +37,7 @@ function mixWords() {
       shuffleArray(output[i]);
       totalLength += output[i].length;
     }
-  } while (totalLength < 17);
+  } while (totalLength < 17 || isFiltered(output.map((x) => x.join(""))));
   return output;
 }
 
@@ -68,13 +70,19 @@ export async function IsWord(word: string): Promise<Boolean> {
   return words_six.includes(word);
 }
 
+function isFiltered(letters: string[]): boolean {
+  const words = [] as string[];
+  const re = new RegExp(letters.map((x) => `[${x}]`).join(""));
+  filter.filter((x) => re.exec(x)).map((x) => words.push(x));
+  return words.length > 0;
+}
+
 export async function getAllWords(letters: string[]): Promise<string[]> {
   const words = [] as string[];
   const re = new RegExp(letters.map((x) => `[${x}]`).join(""));
   words_six.filter((x) => re.exec(x)).map((x) => words.push(x));
   return words;
 }
-
 async function getUserIdFromClerkId() {
   const { userId } = auth();
   if (!userId) return false;
