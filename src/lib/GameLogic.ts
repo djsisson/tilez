@@ -1,7 +1,8 @@
 "use server";
-import { words_six } from "@/data/6letter";
-import { words_easy } from "@/data/english6-all";
-import { filter } from "@/data/_filtered";
+
+import { all_words } from "@/data/all_words";
+import { words } from "@/data/words";
+import { filter } from "@/data/filter";
 import { GameState, GameRow, GameTile } from "./GameTypes";
 import { db } from "@/db/db";
 import { tilez_games, tilez_users } from "@/db/migrations/schema";
@@ -10,8 +11,8 @@ import { avg, count, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 function getRandomWord() {
-  const i = Math.floor(Math.random() * words_easy.length);
-  return words_easy[i];
+  const i = Math.floor(Math.random() * words.length);
+  return words[i];
 }
 
 function shuffleArray(array: string[]) {
@@ -53,7 +54,7 @@ export async function NewGame(): Promise<GameState> {
         }) as GameRow,
     );
   } while (
-    words_six.includes(rows.map((x) => x.tiles[x.position + 1].letter).join(""))
+    all_words.includes(rows.map((x) => x.tiles[x.position + 1].letter).join(""))
   );
   const _gameState: GameState = {
     gameStart: new Date(),
@@ -66,8 +67,8 @@ export async function NewGame(): Promise<GameState> {
   return _gameState;
 }
 
-export async function IsWord(word: string): Promise<Boolean> {
-  return words_six.includes(word);
+export async function isWord(word: string): Promise<Boolean> {
+  return all_words.includes(word);
 }
 
 function isFiltered(letters: string[]): boolean {
@@ -80,7 +81,7 @@ function isFiltered(letters: string[]): boolean {
 export async function getAllWords(letters: string[]): Promise<string[]> {
   const words = [] as string[];
   const re = new RegExp(letters.map((x) => `[${x}]`).join(""));
-  words_six.filter((x) => re.exec(x)).map((x) => words.push(x));
+  all_words.filter((x) => re.exec(x)).map((x) => words.push(x));
   return words;
 }
 async function getUserIdFromClerkId() {
