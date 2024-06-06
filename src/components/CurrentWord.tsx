@@ -25,9 +25,7 @@ export default function CurrentWord() {
   const [allWords, setAllwords] = useState([] as string[]);
   const [hoverOpen, setHoverOpen] = useState(false);
   const ref = useRef<NodeJS.Timeout>();
-  const [definitions, setDefinitions] = useState(
-    new Map() as Map<string, string>,
-  );
+  const refDefinitions = useRef(new Map() as Map<string, string>);
   const { isSignedIn, isLoaded } = useUser();
 
   useEffect(() => {
@@ -76,14 +74,14 @@ export default function CurrentWord() {
     } else {
       const checkWord = async () => {
         if (await IsWord(currentWord.join(""))) {
-          if (definitions.has(currentWord.join(""))) {
-            setCurrentDefinition(definitions.get(currentWord.join("")) || "");
+          if (refDefinitions.current.has(currentWord.join(""))) {
+            setCurrentDefinition(
+              refDefinitions.current.get(currentWord.join("")) || "",
+            );
           } else {
             const newDefinition = await getDefinition();
             setCurrentDefinition(newDefinition);
-            setDefinitions((old) =>
-              new Map(old).set(currentWord.join(""), newDefinition),
-            );
+            refDefinitions.current.set(currentWord.join(""), newDefinition);
           }
         }
       };
@@ -119,7 +117,7 @@ export default function CurrentWord() {
                 <div
                   key={x}
                   className="cursor-pointer italic"
-                  title={definitions.get(x) || ""}
+                  title={refDefinitions.current.get(x) || "No Definition Found"}
                 >
                   {x}
                 </div>
@@ -179,6 +177,7 @@ export default function CurrentWord() {
             <PopoverTrigger>
               <Badge
                 variant={`${currentDefinition ? "default" : "secondary"}`}
+                aria-disabled={true}
                 className={`cursor-pointer text-center text-base uppercase md:text-xl lg:text-2xl ${currentDefinition ? "" : "border border-solid border-muted-foreground"}`}
               >
                 {currentWord}
