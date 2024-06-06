@@ -3,7 +3,7 @@
 import { SignInButton, SignedOut } from "@clerk/nextjs";
 import { useGameState, useGameStateDispatch } from "./GameContext";
 import { useEffect, useState, useRef } from "react";
-import { IsWord, getAllWords, uploadScore } from "@/lib/GameLogic";
+import { isWord, getAllWords, uploadScore } from "@/lib/GameLogic";
 import { GameActionType } from "@/lib/GameTypes";
 import { Badge } from "./ui/badge";
 import Help from "./Help";
@@ -64,7 +64,7 @@ export default function CurrentWord() {
       !gameState.rows.reduce((a, b) => a && b.tiles[b.position + 1].found, true)
     ) {
       const checkWord = async () => {
-        if (await IsWord(currentWord.join(""))) {
+        if (await isWord(currentWord.join(""))) {
           dispatch({
             type: GameActionType.FOUND,
           });
@@ -73,7 +73,7 @@ export default function CurrentWord() {
       checkWord();
     } else {
       const checkWord = async () => {
-        if (await IsWord(currentWord.join(""))) {
+        if (await isWord(currentWord.join(""))) {
           if (refDefinitions.current.has(currentWord.join(""))) {
             setCurrentDefinition(
               refDefinitions.current.get(currentWord.join("")) || "",
